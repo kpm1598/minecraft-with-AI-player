@@ -53,23 +53,25 @@ ollama list
 You should see your Aarohi model `qwen3:1.7b`. Leave it — it is not used here and does not load unless called.
 If `ollama` is not recognised, install Ollama from ollama.com/download/windows, then close and reopen PowerShell.
 
-## Step 2 — Node 20 or 22 LTS (IMPORTANT)
+## Step 2 — Node 22 portable (IMPORTANT — v2, replaces the nvm method)
 
 You currently have **Node v24** (from BLACKCAT). Mindcraft warns Node 24+ can break its native dependencies.
-Do NOT uninstall Node 24 — install **nvm-windows** instead so you can switch per project:
-
-1. Download `nvm-setup.exe` from github.com/coreybutler/nvm-windows/releases
-2. Install it, open a NEW PowerShell, then:
+Do NOT uninstall Node 24, and do NOT use nvm (`nvm is not recognized` = nvm itself was never installed — the v1 README's short summary skipped its download step, sorry).
+Use a **portable Node 22** instead: no installer, no PATH changes, Node 24 untouched. In PowerShell:
 
 ```powershell
-nvm install 22
-nvm use 22
+cd C:\Users\patel\Downloads
+Invoke-WebRequest https://nodejs.org/dist/v22.22.0/node-v22.22.0-win-x64.zip -OutFile node22.zip
+Expand-Archive node22.zip -DestinationPath . -Force
+$env:Path = "C:\Users\patel\Downloads\node-v22.22.0-win-x64;$env:Path"
 node --version
 ```
 
-It must show `v22.x`. Use `nvm use 24` later when you go back to other projects.
+It must show `v22.22.0`. This lasts only in THIS PowerShell window — perfect for Mindcraft.
+Every time you play: open PowerShell, run the `$env:Path = ...` line again first (the download/extract is one-time).
+`02_START_BOT.bat` in v2 does this automatically if the portable folder is in Downloads.
 
-## Step 3 — Get Mindcraft
+## Step 3 — Get Mindcraft (in the SAME PowerShell window as Step 2)
 
 ```powershell
 cd C:\Users\patel\Downloads
@@ -77,6 +79,8 @@ git clone https://github.com/mindcraft-bots/mindcraft.git
 cd mindcraft
 npm install
 ```
+
+If `node --version` here shows v24, you are in the wrong window — go back to Step 2's window / re-run the `$env:Path` line.
 
 ## Step 4 — Copy this pack in + pull ONLY the lite models
 
