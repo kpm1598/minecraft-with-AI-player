@@ -106,6 +106,7 @@ Check: `ollama list` must show both models.
 
 ## Step 6 — Play
 
+0. **Open the Ollama app first** (Start menu → Ollama; it sits in the system tray). If Ollama is not running, the bot joins but answers "No response data." — its console shows `ECONNREFUSED 127.0.0.1:11434`. Learned live on 2026-11-15.
 1. Launch Minecraft 1.21.6, open your singleplayer world (Survival, cheats ON is helpful for testing).
 2. `Esc → Open to LAN → Start LAN World`. Note the port it shows (e.g. "hosted on port 55916") — you don't need to type it, this pack's settings use `port: -1` to auto-scan for your LAN world.
 3. Double-click `02_START_BOT.bat` in the mindcraft folder (or `node main.js` in PowerShell there).
@@ -120,6 +121,19 @@ Check: `ollama list` must show both models.
 ## Stop everything cleanly
 
 Close the bot terminal (Ctrl+C), then exit the world. Ollama unloads the model from RAM after a few idle minutes.
+
+## v3 — Humanised chat (2026-11-15)
+
+The v1/v2 bot replied with long, odd, rambling messages (invented names, random topics, command spam).
+v3 changes ONLY `andy.json`:
+
+- A strict chat prompt: ONE short sentence, plain words, no lists/roleplay, no invented topics, no unasked plans or extra commands.
+- Built-in example conversations in the profile that teach the short style (hi → "Hey, what do you need?", "follow me" → "Okay, following you. !followPlayer(...)").
+- Calmer model settings via Ollama options: temperature 0.5, top_p 0.85, repeat_penalty 1.2, num_predict 70 (hard cap that keeps replies short).
+
+It will still occasionally be odd — that is the 1.5B micro model's ceiling, not a setup error.
+To apply v3 on the laptop: copy the new `andy.json` into the mindcraft folder (replace), restart the bot
+(Ctrl+C in its window, run `02_START_BOT.bat` again). The game and LAN world can stay open; the bot rejoins.
 
 ## Troubleshooting
 
